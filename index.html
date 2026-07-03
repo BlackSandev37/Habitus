@@ -190,18 +190,18 @@
 
             // Actualizar el Badge Superior (Refleja siempre el estado de HOY real)
             const tareasHoyReal = estructuraSemanal[new Date().getDay()] || [];
-            let de verdadPendientesHoy = 0;
-            tareasHoyReal.forEach(t => { if (!logsCompletados[hoyStr][t]) de verdadPendientesHoy++; });
+            let deVerdadPendientesHoy = 0;
+            tareasHoyReal.forEach(t => { if (!logsCompletados[hoyStr][t]) deVerdadPendientesHoy++; });
 
-            if (de verdadPendientesHoy === 0 && tareasHoyReal.length > 0) {
+            if (deVerdadPendientesHoy === 0 && tareasHoyReal.length > 0) {
                 badgeContador.className = "inline-block bg-green-100 text-green-700 text-xs font-semibold px-2.5 py-1 rounded-full mt-2";
                 badgeContador.innerText = "¡Día completado! 🎉";
             } else {
                 badgeContador.className = "inline-block bg-red-100 text-red-700 text-xs font-semibold px-2.5 py-1 rounded-full mt-2";
-                badgeContador.innerText = `Pendientes hoy: ${de verdadPendientesHoy}`;
+                badgeContador.innerText = `Pendientes hoy: ${deVerdadPendientesHoy}`;
             }
 
-            actualizarNotificacionSistema(de verdadPendientesHoy);
+            actualizarNotificacionSistema(deVerdadPendientesHoy);
         }
 
         // MULTIMEDIA API (TRUCO SPOTIFY)
