@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habitus</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-gray-100 text-gray-900 font-sans p-4">
+
+    <div class="max-w-md mx-auto bg-white p-5 rounded-xl shadow-sm space-y-5">
+        
+        <div class="text-center">
+            <h1 class="text-xl font-bold tracking-wider uppercase">Habitus</h1>
+            <p id="fecha-hoy" class="text-xs text-gray-500 font-medium uppercase mt-0.5"></p>
+            <div id="badge-contador" class="inline-block bg-red-100 text-red-700 text-xs font-semibold px-2.5 py-1 rounded-full mt-2">
+                Calculando...
+            </div>
+        </div>
+
+        <div>
+            <button id="btn-spotify" class="w-full bg-green-600 text-white p-3 rounded-lg text-sm font-bold uppercase tracking-wide shadow-sm hover:bg-green-700 active:scale-98 transition-all">
+                📌 Fijar en Pantalla de Bloqueo
+            </button>
+            <p class="text-[10px] text-gray-400 text-center mt-1">⚠️ Requiere abrirse desde un enlace HTTPS para activarse correctamente.</p>
+        </div>
+
+        <hr class="border-gray-200">
+
+        <div class="flex justify-between gap-1 overflow-x-auto pb-1" id="tabs-dias">
+            </div>
+
+        <div class="space-y-3">
+            <div class="flex gap-2">
+                <input type="text" id="input-nueva-tarea" class="flex-1 p-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-gray-900 bg-gray-50" placeholder="Nueva tarea para este día...">
+                <button id="btn-agregar" class="bg-gray-900 text-white px-4 rounded-lg font-bold text-lg hover:bg-gray-800">+</button>
+            </div>
+
+            <div id="tasks-container" class="space-y-2"></div>
+        </div>
+
+        <div class="bg-gray-50 p-3 rounded-lg text-[11px] text-gray-500 space-y-1">
+            <span class="font-bold uppercase tracking-wide block text-[10px] text-gray-400">Leyenda de estados:</span>
+            <p>○ / ✓ Tareas estándar del día seleccionado.</p>
+            <p>⚠️ Tareas arrastradas automáticamente por no completarse el día anterior.</p>
+        </div>
+
+    </div>
+
+    <audio id="silent-audio" loop>
+        <source src="data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAAQA" type="audio/wav">
+    </audio>
+
+    <script>
+        const DIAS_SEMANA = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+        
+        // Estado de la aplicación
+        let diaSeleccionado = new Date().getDay(); // Hoy por defecto (0-6)
+        let estructuraSemanal = JSON.parse(localStorage.getItem('habitus_estructura')) || {
+            0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: []
+        };
+        let logsCompletados = JSON.parse(localStorage.getItem('habitus_completados_logs')) || {};
+        let ultimoDiaAcceso = localStorage.getItem('habitus_ultimo_acceso') || "";
+
+        const tasksContainer = document.getElementById('tasks-container');
+        const tabsDias = document.getElementById('tabs-dias');
+        const badgeContador = document.getElementById('badge-contador');
+        const inputNueva = document.getElementById('input-nueva-tarea');
+        const btnAgregar = document.getElementById('btn-agregar');
+        const btnSpotify = document.getElementById('btn-spotify');
+        const silentAudio = document.getElementById('silent-audio');
+
+        // Mostrar fecha actual arriba
+        const opcionesFecha = { weekday: 'long', day: 'numeric', month: 'short' };
+        document.getElementById('fecha-hoy').innerText = new Date().toLocaleDateString('es-ES', opcionesFecha);
+
+        // LÓGICA DE TRASPASO DE PENDIENTES (SÓLO AL CAMBIAR DE DÍA REAL)
+        function verificarTraspasoPendientes() {
+            const hoyStr = new Date().toISOString().split('T')[0];
+            
+            if (ultimoDiaAcceso && ultimoDiaAcceso !== hoyStr) {
+                // Calcular qué día de la semana fue ayer en base al acceso anterior
+                const fechaAnterior = new Date(ultimoDiaAcceso + "T12:00:00");
+                const diaSemanaAyer = fechaAnterior.getDay();
+                const diaSemanaHoy = new Date().getDay();
+
+                // Buscar tareas no completadas de ese día en la última fecha registrada
+                const tareasAyer = estructuraSemanal[diaSemanaAyer] || [];
+                const completadasAyer = logsCompletados[ultimoDiaAcceso] || {};
+
+                tareasAyer.forEach(tarea => {
+                    // Si no estaba completada y no es una arrastrada duplicada
+                    if (!completadasAyer[tarea] && !tarea.startsWith("⚠️")) {
+                        const tareaArrastrada = `⚠️ ${tarea}`;
+                        // Evitar duplicar si ya existe hoy
+                        if (!estructuraSemanal[diaSemanaHoy].includes(tareaArrastrada)) {
+                            estructuraSemanal[diaSemanaHoy].push(tareaArrastrada);
+                        }
+                    }
+                });
+                localStorage.setItem('habitus_estructura', JSON.stringify(estructuraSemanal));
+            }
+            localStorage.setItem('habitus_ultimo_acceso', hoyStr);
+        }
+
+        // RENDER DE PESTAÑAS
+        function renderTabs() {
+            tabsDias.innerHTML = "";
+            const diaActualReal = new Date().getDay();
+
+            DIAS_SEMANA.forEach((dia, index) => {
+                const btnTab = document.createElement('button');
+                const esHoyReal = index === diaActualReal;
+                const esSeleccionado = index === diaSeleccionado;
+
+                btnTab.className = `px-3 py-1.5 text-xs font-bold rounded-lg transition-all whitespace-nowrap ${
+                    esSeleccionado 
+                        ? 'bg-gray-900 text-white' 
+                        : esHoyReal 
+                            ? 'bg-red-50 text-red-600 border border-red-200' 
+                            : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+                }`;
+                btnTab.innerText = dia.substring(0, 3);
+                btnTab.onclick = () => {
+                    diaSeleccionado = index;
+                    renderTabs();
+                    renderTareas();
+                };
+                tabsDias.appendChild(btnTab);
+            });
+        }
+
+        // AGREGAR TAREA
+        function agregarTarea() {
+            const texto = inputNueva.value.trim();
+            if (texto) {
+                estructuraSemanal[diaSeleccionado].push(texto);
+                localStorage.setItem('habitus_estructura', JSON.stringify(estructuraSemanal));
+                inputNueva.value = "";
+                renderTareas();
+            }
+        }
+        btnAgregar.onclick = agregarTarea;
+        inputNueva.addEventListener('keypress', (e) => { if (e.key === 'Enter') agregarTarea(); });
+
+        // ELIMINAR TAREA
+        window.eliminarTarea = function(index) {
+            estructuraSemanal[diaSeleccionado].splice(index, 1);
+            localStorage.setItem('habitus_estructura', JSON.stringify(estructuraSemanal));
+            renderTareas();
+        };
+
+        // CONMUTAR ESTADO (COMPLETADO)
+        window.conmutarTarea = function(tarea) {
+            // Los logs de completados se guardan por fecha real absoluta para no mezclarse
+            const hoyStr = new Date().toISOString().split('T')[0];
+            if (!logsCompletados[hoyStr]) logsCompletados[hoyStr] = {};
+
+            logsCompletados[hoyStr][tarea] = !logsCompletados[hoyStr][tarea];
+            localStorage.setItem('habitus_completados_logs', JSON.stringify(logsCompletados));
+            renderTareas();
+        };
+
+        // RENDER DE TAREAS
+        function renderTareas() {
+            tasksContainer.innerHTML = "";
+            const hoyStr = new Date().toISOString().split('T')[0];
+            if (!logsCompletados[hoyStr]) logsCompletados[hoyStr] = {};
+
+            const tareasDelDia = estructuraSemanal[diaSeleccionado] || [];
+            let pendientesContador = 0;
+
+            tareasDelDia.forEach((tarea, index) => {
+                const isDone = logsCompletados[hoyStr][tarea] || false;
+                if (!isDone) pendientesContador++;
+
+                const itemDiv = document.createElement('div');
+                itemDiv.className = "flex gap-2 items-center w-full";
+                itemDiv.innerHTML = `
+                    <button onclick="conmutarTarea('${tarea}')" class="flex-1 text-left p-3 rounded-lg border text-sm font-medium flex justify-between items-center transition-all ${
+                        isDone ? 'bg-gray-900 text-white border-gray-900 line-through opacity-60' : 'bg-white text-gray-700 border-gray-200'
+                    }">
+                        <span>${tarea}</span>
+                        <span class="font-bold">${isDone ? '✓' : '○'}</span>
+                    </button>
+                    <button onclick="eliminarTarea(${index})" class="p-3 text-red-500 hover:bg-red-50 rounded-lg text-sm font-bold">✕</button>
+                `;
+                tasksContainer.appendChild(itemDiv);
+            });
+
+            // Actualizar el Badge Superior (Refleja siempre el estado de HOY real)
+            const tareasHoyReal = estructuraSemanal[new Date().getDay()] || [];
+            let de verdadPendientesHoy = 0;
+            tareasHoyReal.forEach(t => { if (!logsCompletados[hoyStr][t]) de verdadPendientesHoy++; });
+
+            if (de verdadPendientesHoy === 0 && tareasHoyReal.length > 0) {
+                badgeContador.className = "inline-block bg-green-100 text-green-700 text-xs font-semibold px-2.5 py-1 rounded-full mt-2";
+                badgeContador.innerText = "¡Día completado! 🎉";
+            } else {
+                badgeContador.className = "inline-block bg-red-100 text-red-700 text-xs font-semibold px-2.5 py-1 rounded-full mt-2";
+                badgeContador.innerText = `Pendientes hoy: ${de verdadPendientesHoy}`;
+            }
+
+            actualizarNotificacionSistema(de verdadPendientesHoy);
+        }
+
+        // MULTIMEDIA API (TRUCO SPOTIFY)
+        btnSpotify.onclick = () => {
+            if (silentAudio.paused) {
+                silentAudio.play().then(() => {
+                    btnSpotify.innerText = "📌 Notificación Fijada Permanente";
+                    btnSpotify.className = "w-full bg-gray-800 text-gray-400 p-3 rounded-lg text-sm font-bold uppercase tracking-wide cursor-not-allowed";
+                    if ('mediaSession' in navigator) {
+                        navigator.mediaSession.metadata = new MediaMetadata({
+                            title: 'HABITUS',
+                            artist: 'Estructura Semanal Activa',
+                            album: 'Enfoque TDAH'
+                        });
+                    }
+                    renderTareas();
+                }).catch(() => alert("Por favor, interactúa añadiendo o marcando una tarea antes de fijar."));
+            }
+        };
+
+        function actualizarNotificacionSistema(pendientes) {
+            if ('mediaSession' in navigator && !silentAudio.paused) {
+                navigator.mediaSession.metadata = new MediaMetadata({
+                    title: pendientes === 0 ? '¡Rutinas listas por hoy! 🎉' : `TIENES ${pendientes} TAREAS PENDIENTES`,
+                    artist: 'Revisa tus pestañas de Habitus',
+                    album: 'Habitus App'
+                });
+            }
+        }
+
+        // Inicialización
+        verificarTraspasoPendientes();
+        renderTabs();
+        renderTareas();
+    </script>
+</body>
+</html>
