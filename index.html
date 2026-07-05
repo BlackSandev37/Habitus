@@ -171,7 +171,7 @@
             if (ultimoDiaAcceso && ultimoDiaAcceso !== hoyStr) {
                 const ayerDate = new Date(obtenerFechaLocal());
                 ayerDate.setDate(ayerDate.getDate() - 1);
-                const ayerStr = ayerDate.toISOString().split('T')[0];
+                const ayerStr = obtenerFechaLocalStr(ayerDate);
 
                 const tareasAyer = estructuraFechas[ayerStr] || [];
                 const pendientesAyer = tareasAyer.filter(t => !t.completada);
@@ -223,7 +223,7 @@
 
             const primerDiaMes = new Date(anoVisual, mesVisual, 1).getDay();
             const totalDiasMes = new Date(anoVisual, mesVisual + 1, 0).getDate();
-            const hoyStr = obtenerFechaLocal().toISOString().split('T')[0];
+            const hoyStr = obtenerFechaLocalStr(obtenerFechaLocal());
 
             for (let i = 0; i < primerDiaMes; i++) {
                 gridCalendario.appendChild(document.createElement('div'));
@@ -348,7 +348,7 @@
 
         // ALGORITMO COMPACTADOR DE NOTIFICACIONES
         function evaluarAlertasProgramadas(ahora) {
-            const hoyStr = ahora.toISOString().split('T')[0];
+            const hoyStr = obtenerFechaLocalStr(ahora);
             const tareasHoy = estructuraFechas[hoyStr] || [];
             const pendientes = tareasHoy.filter(t => !t.completada && t.hora);
 
@@ -406,7 +406,7 @@
 
         // SINCRONIZACIÓN DISCRETA DEL WIDGET EN LA BARRA
         function sincronizarNotificacionWidget() {
-            const hoyStr = obtenerFechaLocal().toISOString().split('T')[0];
+            const hoyStr = obtenerFechaLocalStr(obtenerFechaLocal());
             const delDia = estructuraFechas[hoyStr] || [];
             const pendientes = delDia.filter(t => !t.completada).length;
             
