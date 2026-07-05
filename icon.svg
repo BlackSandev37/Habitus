@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Habitus icon">
+  <rect width="256" height="256" rx="56" fill="#111827"/>
+  <path d="M72 188c0-38 26-68 62-75 32-6 56 7 73 30-13 14-29 23-47 23-22 0-39-12-45-30-10 17-25 28-43 28-12 0-23-4-34-10 6 20 18 31 34 34z" fill="#f4f4f5"/>
+  <circle cx="96" cy="96" r="24" fill="#f43f5e"/>
+  <circle cx="160" cy="96" r="24" fill="#f59e0b"/>
+</svg>
