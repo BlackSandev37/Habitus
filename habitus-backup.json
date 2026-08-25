@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "actualizadoEn": "2026-08-25T11:20:19.158Z",
+  "actualizadoEn": "2026-08-25T11:21:00.919Z",
   "estructuraFechas": {
     "2026-07-04": [],
     "2026-07-05": [],
@@ -47,34 +47,10 @@
       "fecha": "4/7/26, 11:01 p. m."
     }
   ],
-  "movimientos": [
-    {
-      "id": 1787656637257,
-      "monto": 30.67,
-      "tipo": "ingreso",
-      "concepto": "Pichincha",
-      "tag": "Saldo",
-      "fecha": "2026-08-25"
-    },
-    {
-      "id": 1787656387546,
-      "monto": 50,
-      "tipo": "ingreso",
-      "concepto": "Billetes y monedas",
-      "tag": "Efectivo",
-      "fecha": "2026-08-25"
-    }
-  ],
+  "movimientos": [],
   "tagsIdeas": [],
-  "tagsMovimientos": [
-    "Efectivo",
-    "Saldo",
-    "Tarjeta"
-  ],
+  "tagsMovimientos": [],
   "rachaActual": 0,
   "ultimoDiaAcceso": "2026-08-25",
-  "logsNotificacionesEnviadas": {
-    "1783220220057.609_en_punto_2026-07-04": true,
-    "1783224125723.391_60_min_2026-07-05": true
-  }
+  "logsNotificacionesEnviadas": {}
 }
