@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "actualizadoEn": "2026-08-25T11:31:49.402Z",
+  "actualizadoEn": "2026-08-25T11:32:56.675Z",
   "estructuraFechas": {
     "2026-07-04": [],
     "2026-07-05": [],
@@ -53,14 +53,6 @@
       "monto": 17.27,
       "tipo": "gasto",
       "concepto": "Transferencia",
-      "tag": "Saldo",
-      "fecha": "2026-08-25"
-    },
-    {
-      "id": 1787657103259,
-      "monto": 13.03,
-      "tipo": "gasto",
-      "concepto": "Deuda al fondo universitario",
       "tag": "Saldo",
       "fecha": "2026-08-25"
     },
