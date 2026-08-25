@@ -1,9 +1,8 @@
-// sw.js - Service Worker Completo (Soporte Offline + Control de Notificaciones)
+// Service Worker para soporte offline y apertura de notificaciones.
 
 const CACHE_NAME = 'habitus-v2';
 const ASSETS = [
   'index.html',
-  'manifest.json',
   'manifest.webmanifest',
   'icon.svg'
 ];

@@ -36,6 +36,23 @@
             </div>
         </div>
 
+        <div class="bg-[#09090b] p-4 rounded-xl border border-[#18181b] space-y-3">
+            <div class="flex justify-between items-center">
+                <h2 class="text-xs font-bold uppercase tracking-widest text-white">Backup en GitHub</h2>
+                <span id="estado-backup-github" class="text-[10px] text-[#52525b]">Local activo</span>
+            </div>
+            <input id="token-github" type="password" autocomplete="off" class="w-full bg-[#121214] border border-[#18181b] rounded-md p-2 text-xs text-white focus:outline-none placeholder-[#52525b]" placeholder="Token de GitHub (contents: write)">
+            <label class="flex items-center gap-2 text-[10px] text-[#a1a1aa]">
+                <input id="recordar-token-github" type="checkbox" class="accent-white" checked>
+                Recordar token y sincronizar automáticamente
+            </label>
+            <div class="flex gap-2">
+                <button id="btn-subir-github" class="flex-1 bg-white text-black text-xs font-bold px-3 py-2 rounded-md hover:bg-zinc-200 transition-all">Subir backup</button>
+                <button id="btn-bajar-github" class="flex-1 bg-[#18181b] border border-[#27272a] text-white text-xs font-bold px-3 py-2 rounded-md hover:border-[#52525b] transition-all">Restaurar</button>
+            </div>
+            <p class="text-[10px] text-[#52525b]">Usa un repositorio privado. El token solo permanece en esta pestaña.</p>
+        </div>
+
         <!-- SECCIÓN 1: PLANIFICADOR DE HÁBITOS (TAB ACTIVA POR DEFECTO) -->
         <div id="view-planificador" class="space-y-5 app-view">
             
@@ -57,6 +74,10 @@
             <div id="wrapper-input-tarea" class="bg-[#09090b] p-3 rounded-xl border border-[#18181b] flex gap-2 items-center">
                 <input type="text" id="input-nueva-tarea" class="flex-1 bg-transparent text-sm text-white focus:outline-none placeholder-[#52525b]" placeholder="Añadir nuevo hábito...">
                 <input type="time" id="input-hora-tarea" class="bg-[#18181b] border border-[#27272a] rounded-md p-1.5 text-xs text-white focus:outline-none w-20 font-mono">
+                <select id="selector-recurrencia-tarea" class="bg-[#18181b] border border-[#27272a] rounded-md p-1.5 text-[10px] text-white focus:outline-none w-24">
+                    <option value="no">No recurrente</option>
+                    <option value="si">Recurrente diario</option>
+                </select>
                 <button id="btn-agregar" class="bg-white text-black text-xs font-bold px-3 py-2 rounded-md hover:bg-zinc-200 transition-all">+</button>
             </div>
 
@@ -75,15 +96,73 @@
             <div class="bg-[#09090b] p-4 rounded-xl border border-[#18181b] space-y-3">
                 <h2 class="text-xs font-bold uppercase tracking-widest text-white">Laboratorio de Ideas</h2>
                 <textarea id="input-nueva-idea" class="w-full h-24 bg-[#121214] border border-[#18181b] rounded-lg p-3 text-sm text-white focus:outline-none focus:border-[#27272a] placeholder-[#52525b] resize-none" placeholder="Escribe una idea, recordatorio científico o inspiración rápida..."></textarea>
+                <div class="flex gap-2">
+                    <select id="selector-tag-idea" class="min-w-0 flex-1 bg-[#18181b] border border-[#27272a] rounded-md p-2 text-xs text-white focus:outline-none">
+                        <option value="">Sin tag</option>
+                    </select>
+                    <input id="input-nueva-tag-idea" type="text" class="min-w-0 w-24 flex-1 bg-[#121214] border border-[#18181b] rounded-md p-2 text-xs text-white focus:outline-none placeholder-[#52525b]" placeholder="Nueva tag">
+                    <button id="btn-agregar-tag-idea" class="shrink-0 bg-[#27272a] text-white text-xs font-bold w-8 h-8 rounded-md hover:bg-[#3f3f46]" aria-label="Añadir tag">+</button>
+                    <button id="btn-gestionar-tags-idea" class="shrink-0 bg-[#18181b] border border-[#27272a] text-[#a1a1aa] text-sm w-8 h-8 rounded-md hover:text-white hover:border-[#52525b]" aria-label="Gestionar tags" title="Gestionar tags">⚙</button>
+                </div>
+                <div id="gestor-tags-idea" class="hidden bg-[#121214] border border-[#27272a] rounded-lg p-2 space-y-1"></div>
                 <div class="flex justify-end">
                     <button id="btn-guardar-idea" class="bg-white text-black text-xs font-bold px-4 py-2 rounded-md hover:bg-zinc-200 transition-all">Guardar Idea</button>
                 </div>
             </div>
 
             <div class="space-y-2">
-                <span class="text-[11px] font-bold uppercase tracking-wider text-[#52525b] block px-1">Ideas Guardadas</span>
+                <div class="flex justify-between items-center px-1">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-[#52525b]">Ideas Guardadas</span>
+                    <div class="flex flex-wrap gap-1 justify-end">
+                        <input id="filtro-desde-idea" type="date" class="bg-[#18181b] border border-[#27272a] rounded-md px-1 py-1 text-[10px] text-[#a1a1aa] focus:outline-none" title="Desde">
+                        <input id="filtro-hasta-idea" type="date" class="bg-[#18181b] border border-[#27272a] rounded-md px-1 py-1 text-[10px] text-[#a1a1aa] focus:outline-none" title="Hasta">
+                        <select id="filtro-tag-idea" class="bg-[#18181b] border border-[#27272a] rounded-md px-2 py-1 text-[10px] text-[#a1a1aa] focus:outline-none"><option value="">Todas las tags</option></select>
+                    </div>
+                </div>
                 <div id="ideas-container" class="space-y-2"></div>
             </div>
+        </div>
+
+        <!-- SECCIÓN 3: CONTABILIDAD -->
+        <div id="view-contabilidad" class="space-y-4 app-view hidden">
+            <div class="bg-[#09090b] p-4 rounded-xl border border-[#18181b] space-y-3">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-xs font-bold uppercase tracking-widest text-white">Contabilidad</h2>
+                    <span id="balance-contabilidad" class="text-sm font-bold text-white">$0.00</span>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <input id="input-monto" type="number" min="0" step="0.01" class="bg-[#121214] border border-[#18181b] rounded-md p-2 text-sm text-white focus:outline-none placeholder-[#52525b]" placeholder="Monto">
+                    <select id="selector-tipo-movimiento" class="bg-[#18181b] border border-[#27272a] rounded-md p-2 text-sm text-white focus:outline-none">
+                        <option value="gasto">Gasto</option>
+                        <option value="ingreso">Ingreso</option>
+                    </select>
+                </div>
+                <input id="input-concepto" type="text" class="w-full bg-[#121214] border border-[#18181b] rounded-md p-2 text-sm text-white focus:outline-none placeholder-[#52525b]" placeholder="Concepto">
+                <div class="flex gap-2">
+                    <select id="selector-tag-movimiento" class="min-w-0 flex-1 bg-[#18181b] border border-[#27272a] rounded-md p-2 text-xs text-white focus:outline-none">
+                        <option value="">Sin tag</option>
+                    </select>
+                    <input id="input-nueva-tag-movimiento" type="text" class="min-w-0 w-24 flex-1 bg-[#121214] border border-[#18181b] rounded-md p-2 text-xs text-white focus:outline-none placeholder-[#52525b]" placeholder="Nueva tag">
+                    <button id="btn-agregar-tag-movimiento" class="shrink-0 bg-[#27272a] text-white text-xs font-bold w-8 h-8 rounded-md hover:bg-[#3f3f46]" aria-label="Añadir tag">+</button>
+                    <button id="btn-gestionar-tags-movimiento" class="shrink-0 bg-[#18181b] border border-[#27272a] text-[#a1a1aa] text-sm w-8 h-8 rounded-md hover:text-white hover:border-[#52525b]" aria-label="Gestionar tags" title="Gestionar tags">⚙</button>
+                </div>
+                <div id="gestor-tags-movimiento" class="hidden bg-[#121214] border border-[#27272a] rounded-lg p-2 space-y-1"></div>
+                <button id="btn-agregar-movimiento" class="w-full bg-white text-black text-xs font-bold px-4 py-2 rounded-md hover:bg-zinc-200 transition-all">Agregar movimiento</button>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2">
+                <input id="filtro-desde-movimiento" type="date" class="min-w-0 w-full bg-[#18181b] border border-[#27272a] rounded-md p-2 text-[10px] text-[#a1a1aa] focus:outline-none" title="Desde">
+                <input id="filtro-hasta-movimiento" type="date" class="min-w-0 w-full bg-[#18181b] border border-[#27272a] rounded-md p-2 text-[10px] text-[#a1a1aa] focus:outline-none" title="Hasta">
+                <select id="filtro-tipo-movimiento" class="min-w-0 w-full bg-[#18181b] border border-[#27272a] rounded-md p-2 text-xs text-[#a1a1aa] focus:outline-none">
+                    <option value="">Ingresos y gastos</option>
+                    <option value="ingreso">Solo ingresos</option>
+                    <option value="gasto">Solo gastos</option>
+                </select>
+                <select id="filtro-tag-movimiento" class="min-w-0 w-full bg-[#18181b] border border-[#27272a] rounded-md p-2 text-xs text-[#a1a1aa] focus:outline-none">
+                    <option value="">Todas las tags</option>
+                </select>
+            </div>
+            <div id="movimientos-container" class="space-y-2"></div>
         </div>
 
     </div>
@@ -98,6 +177,10 @@
             <button id="tab-diario" class="flex flex-col items-center gap-1 text-[#52525b] hover:text-[#a1a1aa] transition-all">
                 <span class="text-lg">💡</span>
                 <span class="text-[10px] font-medium tracking-tight">Diario</span>
+            </button>
+            <button id="tab-contabilidad" class="flex flex-col items-center gap-1 text-[#52525b] hover:text-[#a1a1aa] transition-all">
+                <span class="text-lg">💰</span>
+                <span class="text-[10px] font-medium tracking-tight">Dinero</span>
             </button>
         </div>
     </div>
@@ -124,9 +207,233 @@
         // PERSISTENCIA
         let estructuraFechas = JSON.parse(localStorage.getItem('habitus_v6_fechas')) || {};
         let listaIdeas = JSON.parse(localStorage.getItem('habitus_v6_ideas')) || [];
+        let movimientos = JSON.parse(localStorage.getItem('habitus_v6_movimientos')) || [];
+        let tagsIdeas = JSON.parse(localStorage.getItem('habitus_v6_tags_ideas')) || [];
+        let tagsMovimientos = JSON.parse(localStorage.getItem('habitus_v6_tags_movimientos')) || [];
         let rachaActual = parseInt(localStorage.getItem('habitus_v6_racha')) || 0;
         let ultimoDiaAcceso = localStorage.getItem('habitus_v6_ultimo_acceso') || "";
         let logsNotificacionesEnviadas = JSON.parse(localStorage.getItem('habitus_v6_notifs_logs')) || {};
+        const HORA_EN_MS = 60 * 60 * 1000;
+        const CLAVE_BACKUP_LOCAL = 'habitus_backup_local_v1';
+        const CLAVE_ENDPOINT_NUBE = 'habitus_cloud_endpoint';
+        const GITHUB_REPOSITORIO = 'BlackSandev37/Habitus';
+        const GITHUB_ARCHIVO_BACKUP = 'habitus-backup.json';
+        const CLAVE_TOKEN_GITHUB = 'habitus_github_token';
+        let revisionNotificacionesEnCurso = false;
+        let envioNotificacionEnCurso = false;
+        let tokenGithubActivo = localStorage.getItem(CLAVE_TOKEN_GITHUB) || '';
+        let sincronizacionGithubEnCurso = false;
+        let sincronizacionGithubPendiente = false;
+
+        function obtenerEstadoCompleto() {
+            return {
+                version: 1,
+                actualizadoEn: new Date().toISOString(),
+                estructuraFechas,
+                listaIdeas,
+                movimientos,
+                tagsIdeas,
+                tagsMovimientos,
+                rachaActual,
+                ultimoDiaAcceso,
+                logsNotificacionesEnviadas
+            };
+        }
+
+        function guardarBackupLocal() {
+            localStorage.setItem(CLAVE_BACKUP_LOCAL, JSON.stringify(obtenerEstadoCompleto()));
+        }
+
+        function restaurarBackupLocalSiHaceFalta() {
+            const tieneDatosActuales = Object.keys(estructuraFechas).length > 0 || listaIdeas.length > 0 || movimientos.length > 0;
+            if (tieneDatosActuales) return;
+
+            try {
+                const backup = JSON.parse(localStorage.getItem(CLAVE_BACKUP_LOCAL));
+                if (!backup || backup.version !== 1) return;
+                estructuraFechas = backup.estructuraFechas || {};
+                listaIdeas = backup.listaIdeas || [];
+                movimientos = backup.movimientos || [];
+                tagsIdeas = backup.tagsIdeas || [];
+                tagsMovimientos = backup.tagsMovimientos || [];
+                rachaActual = Number(backup.rachaActual) || 0;
+                ultimoDiaAcceso = backup.ultimoDiaAcceso || '';
+                logsNotificacionesEnviadas = backup.logsNotificacionesEnviadas || {};
+            } catch (error) {
+                console.warn('No se pudo leer el backup local de Habitus.', error);
+            }
+        }
+
+        function sincronizarBackupNube() {
+            const endpoint = localStorage.getItem(CLAVE_ENDPOINT_NUBE);
+            if (!endpoint) return;
+            fetch(endpoint, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(obtenerEstadoCompleto())
+            }).catch(() => {});
+        }
+
+        function persistirEstado() {
+            guardarBackupLocal();
+            sincronizarBackupNube();
+            sincronizarGithubAutomaticamente();
+        }
+
+        function codificarBase64(texto) {
+            const bytes = new TextEncoder().encode(texto);
+            let binario = '';
+            bytes.forEach(byte => binario += String.fromCharCode(byte));
+            return btoa(binario);
+        }
+
+        function decodificarBase64(contenido) {
+            const binario = atob(contenido.replace(/\n/g, ''));
+            const bytes = Uint8Array.from(binario, caracter => caracter.charCodeAt(0));
+            return new TextDecoder().decode(bytes);
+        }
+
+        function actualizarEstadoBackupGithub(texto) {
+            estadoBackupGithub.textContent = texto;
+        }
+
+        async function obtenerBackupGithub(token) {
+            const respuesta = await fetch(`https://api.github.com/repos/${GITHUB_REPOSITORIO}/contents/${GITHUB_ARCHIVO_BACKUP}?ref=main`, {
+                headers: { Accept: 'application/vnd.github+json', Authorization: `Bearer ${token}` }
+            });
+            if (respuesta.status === 404) return null;
+            if (!respuesta.ok) throw new Error(`GitHub respondió ${respuesta.status}`);
+            return respuesta.json();
+        }
+
+        async function subirBackupGithub() {
+            const token = tokenGithub.value.trim();
+            if (!token) {
+                actualizarEstadoBackupGithub('Falta el token');
+                return;
+            }
+
+            actualizarEstadoBackupGithub('Subiendo...');
+            try {
+                persistirEstado();
+                const archivoActual = await obtenerBackupGithub(token);
+                const contenido = JSON.stringify(obtenerEstadoCompleto(), null, 2);
+                const respuesta = await fetch(`https://api.github.com/repos/${GITHUB_REPOSITORIO}/contents/${GITHUB_ARCHIVO_BACKUP}`, {
+                    method: 'PUT',
+                    headers: {
+                        Accept: 'application/vnd.github+json',
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: 'Actualizar backup de Habitus',
+                        content: codificarBase64(contenido),
+                        branch: 'main',
+                        ...(archivoActual ? { sha: archivoActual.sha } : {})
+                    })
+                });
+                if (!respuesta.ok) throw new Error(`GitHub respondió ${respuesta.status}`);
+                tokenGithubActivo = token;
+                if (recordarTokenGithub.checked) localStorage.setItem(CLAVE_TOKEN_GITHUB, token);
+                else localStorage.removeItem(CLAVE_TOKEN_GITHUB);
+                actualizarEstadoBackupGithub(`Guardado ${new Date().toLocaleTimeString('es-EC', { hour: '2-digit', minute: '2-digit' })}`);
+            } catch (error) {
+                actualizarEstadoBackupGithub('No se pudo guardar');
+                console.warn('No se pudo subir el backup a GitHub.', error);
+            }
+        }
+
+        async function sincronizarGithubAutomaticamente() {
+            if (!tokenGithubActivo) return;
+            if (sincronizacionGithubEnCurso) {
+                sincronizacionGithubPendiente = true;
+                return;
+            }
+
+            sincronizacionGithubEnCurso = true;
+            try {
+                const archivoActual = await obtenerBackupGithub(tokenGithubActivo);
+                const respuesta = await fetch(`https://api.github.com/repos/${GITHUB_REPOSITORIO}/contents/${GITHUB_ARCHIVO_BACKUP}`, {
+                    method: 'PUT',
+                    headers: {
+                        Accept: 'application/vnd.github+json',
+                        Authorization: `Bearer ${tokenGithubActivo}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: 'Backup automático de Habitus',
+                        content: codificarBase64(JSON.stringify(obtenerEstadoCompleto(), null, 2)),
+                        branch: 'main',
+                        ...(archivoActual ? { sha: archivoActual.sha } : {})
+                    })
+                });
+                if (!respuesta.ok) throw new Error(`GitHub respondió ${respuesta.status}`);
+                actualizarEstadoBackupGithub(`Auto backup ${new Date().toLocaleTimeString('es-EC', { hour: '2-digit', minute: '2-digit' })}`);
+            } catch (error) {
+                actualizarEstadoBackupGithub('Auto backup pendiente');
+                console.warn('No se pudo realizar el backup automático en GitHub.', error);
+            } finally {
+                sincronizacionGithubEnCurso = false;
+                if (sincronizacionGithubPendiente) {
+                    sincronizacionGithubPendiente = false;
+                    sincronizarGithubAutomaticamente();
+                }
+            }
+        }
+
+        function fusionarLista(local, remoto) {
+            const registros = new Map(remoto.map(registro => [String(registro.id), registro]));
+            local.forEach(registro => registros.set(String(registro.id), registro));
+            return [...registros.values()];
+        }
+
+        async function restaurarBackupGithub() {
+            const token = tokenGithub.value.trim();
+            if (!token) {
+                actualizarEstadoBackupGithub('Falta el token');
+                return;
+            }
+
+            actualizarEstadoBackupGithub('Consultando...');
+            try {
+                const archivo = await obtenerBackupGithub(token);
+                if (!archivo) {
+                    actualizarEstadoBackupGithub('No existe backup');
+                    return;
+                }
+                tokenGithubActivo = token;
+                if (recordarTokenGithub.checked) localStorage.setItem(CLAVE_TOKEN_GITHUB, token);
+                else localStorage.removeItem(CLAVE_TOKEN_GITHUB);
+                const remoto = JSON.parse(decodificarBase64(archivo.content));
+                if (remoto.version !== 1) throw new Error('Versión de backup no compatible');
+
+                const fechasRemotas = remoto.estructuraFechas || {};
+                const fechasLocales = estructuraFechas;
+                estructuraFechas = { ...fechasRemotas, ...fechasLocales };
+                Object.keys(fechasRemotas).forEach(fecha => {
+                    if (fechasLocales[fecha]) estructuraFechas[fecha] = fusionarLista(fechasLocales[fecha], fechasRemotas[fecha]);
+                });
+                listaIdeas = fusionarLista(listaIdeas, remoto.listaIdeas || []);
+                movimientos = fusionarLista(movimientos, remoto.movimientos || []);
+                tagsIdeas = [...new Set([...tagsIdeas, ...(remoto.tagsIdeas || [])])];
+                tagsMovimientos = [...new Set([...tagsMovimientos, ...(remoto.tagsMovimientos || [])])];
+                rachaActual = Math.max(rachaActual, Number(remoto.rachaActual) || 0);
+                persistirEstado();
+                actualizarOpcionesTags();
+                renderCalendario();
+                renderTareas();
+                renderIdeas();
+                renderMovimientos();
+                actualizarEstadoBackupGithub('Restaurado sin borrar datos locales');
+            } catch (error) {
+                actualizarEstadoBackupGithub('No se pudo restaurar');
+                console.warn('No se pudo restaurar el backup de GitHub.', error);
+            }
+        }
+
+        restaurarBackupLocalSiHaceFalta();
+        window.addEventListener('beforeunload', guardarBackupLocal);
+        setInterval(persistirEstado, 30000);
 
         if (ultimoDiaAcceso > obtenerFechaLocalStr(hoyLocal)) {
             ultimoDiaAcceso = obtenerFechaLocalStr(hoyLocal);
@@ -143,26 +450,64 @@
         const rachaWrapper = document.getElementById('racha-wrapper');
         const inputNueva = document.getElementById('input-nueva-tarea');
         const inputHora = document.getElementById('input-hora-tarea');
+        const selectorRecurrenciaTarea = document.getElementById('selector-recurrencia-tarea');
         const btnAgregar = document.getElementById('btn-agregar');
         const wrapperInputTarea = document.getElementById('wrapper-input-tarea');
 
         const inputNuevaIdea = document.getElementById('input-nueva-idea');
         const btnGuardarIdea = document.getElementById('btn-guardar-idea');
         const ideasContainer = document.getElementById('ideas-container');
+        const selectorTagIdea = document.getElementById('selector-tag-idea');
+        const inputNuevaTagIdea = document.getElementById('input-nueva-tag-idea');
+        const btnAgregarTagIdea = document.getElementById('btn-agregar-tag-idea');
+        const filtroTagIdea = document.getElementById('filtro-tag-idea');
+        const btnGestionarTagsIdea = document.getElementById('btn-gestionar-tags-idea');
+        const gestorTagsIdea = document.getElementById('gestor-tags-idea');
+        const filtroDesdeIdea = document.getElementById('filtro-desde-idea');
+        const filtroHastaIdea = document.getElementById('filtro-hasta-idea');
+
+        const inputMonto = document.getElementById('input-monto');
+        const selectorTipoMovimiento = document.getElementById('selector-tipo-movimiento');
+        const inputConcepto = document.getElementById('input-concepto');
+        const selectorTagMovimiento = document.getElementById('selector-tag-movimiento');
+        const inputNuevaTagMovimiento = document.getElementById('input-nueva-tag-movimiento');
+        const btnAgregarTagMovimiento = document.getElementById('btn-agregar-tag-movimiento');
+        const btnGestionarTagsMovimiento = document.getElementById('btn-gestionar-tags-movimiento');
+        const gestorTagsMovimiento = document.getElementById('gestor-tags-movimiento');
+        const btnAgregarMovimiento = document.getElementById('btn-agregar-movimiento');
+        const filtroTipoMovimiento = document.getElementById('filtro-tipo-movimiento');
+        const filtroTagMovimiento = document.getElementById('filtro-tag-movimiento');
+        const filtroDesdeMovimiento = document.getElementById('filtro-desde-movimiento');
+        const filtroHastaMovimiento = document.getElementById('filtro-hasta-movimiento');
+        const movimientosContainer = document.getElementById('movimientos-container');
+        const balanceContabilidad = document.getElementById('balance-contabilidad');
+        const tokenGithub = document.getElementById('token-github');
+        const recordarTokenGithub = document.getElementById('recordar-token-github');
+        const btnSubirGithub = document.getElementById('btn-subir-github');
+        const btnBajarGithub = document.getElementById('btn-bajar-github');
+        const estadoBackupGithub = document.getElementById('estado-backup-github');
+        tokenGithub.value = tokenGithubActivo;
+        recordarTokenGithub.checked = Boolean(tokenGithubActivo);
 
         const tabPlanificador = document.getElementById('tab-planificador');
         const tabDiario = document.getElementById('tab-diario');
+        const tabContabilidad = document.getElementById('tab-contabilidad');
         const viewPlanificador = document.getElementById('view-planificador');
         const viewDiario = document.getElementById('view-diario');
+        const viewContabilidad = document.getElementById('view-contabilidad');
 
         // RELOJ Y MONITOREO
         function procesarTiempoReal() {
             const ahora = obtenerFechaLocal();
             document.getElementById('reloj-digital').innerText = ahora.toLocaleTimeString('es-EC', { hour: '2-digit', minute: '2-digit' });
             document.getElementById('fecha-hoy').innerText = ahora.toLocaleDateString('es-EC', { weekday: 'short', day: 'numeric', month: 'short' });
-            evaluarAlertasProgramadas(ahora);
         }
         setInterval(procesarTiempoReal, 1000);
+
+        function iniciarControlNotificaciones() {
+            evaluarAlertasProgramadas(obtenerFechaLocal());
+            setInterval(() => evaluarAlertasProgramadas(obtenerFechaLocal()), HORA_EN_MS);
+        }
 
         // EVALUACIÓN DE CAMBIO DE DÍA Y RACHAS
         function evaluarCambioDeDia() {
@@ -239,7 +584,7 @@
                 const esSeleccionado = fechaCeldaStr === fechaSeleccionadaStr;
                 const esPasado = fechaCeldaStr < hoyStr;
 
-                const tareasDia = estructuraFechas[fechaCeldaStr] || [];
+                const tareasDia = (estructuraFechas[fechaCeldaStr] || []).filter(tarea => !tarea.omitida);
                 const tienePendientes = tareasDia.some(t => !t.completada);
 
                 celdaDia.className = `p-2 text-xs font-bold rounded-md transition-all relative ${
@@ -277,24 +622,56 @@
             const hora = inputHora.value;
             if (texto) {
                 if (!estructuraFechas[fechaSeleccionadaStr]) estructuraFechas[fechaSeleccionadaStr] = [];
+                const id = Date.now() + Math.random();
                 estructuraFechas[fechaSeleccionadaStr].push({
-                    id: Date.now() + Math.random(),
+                    id,
                     texto: texto,
                     hora: hora || null,
-                    completada: false
+                    completada: false,
+                    recurrente: selectorRecurrenciaTarea.value === 'si',
+                    origenId: selectorRecurrenciaTarea.value === 'si' ? id : null,
+                    fechaInicio: fechaSeleccionadaStr
                 });
                 estructuraFechas[fechaSeleccionadaStr].sort((a, b) => (a.hora || '23:59').localeCompare(b.hora || '23:59'));
                 localStorage.setItem('habitus_v6_fechas', JSON.stringify(estructuraFechas));
+                persistirEstado();
                 inputNueva.value = ""; inputHora.value = "";
                 renderTareas(); renderCalendario();
                 sincronizarNotificacionWidget();
+                triggerNotificacion('Hábito creado', `Se agregó: ${texto}`, { tag: 'habitus-evento', permitirReemplazo: true });
             }
         }
         btnAgregar.onclick = agregarTarea;
 
-        window.eliminarTarea = function(id) {
-            estructuraFechas[fechaSeleccionadaStr] = estructuraFechas[fechaSeleccionadaStr].filter(t => t.id !== id);
+        function prepararTareasRecurrentes(fecha) {
+            const fuentes = Object.entries(estructuraFechas).flatMap(([fechaOrigen, tareas]) =>
+                tareas.filter(tarea => tarea.recurrente && !tarea.omitida && tarea.fechaInicio && tarea.fechaInicio === fechaOrigen)
+                    .map(tarea => ({ ...tarea, fechaOrigen }))
+            );
+            if (!fuentes.length) return;
+            if (!estructuraFechas[fecha]) estructuraFechas[fecha] = [];
+            fuentes.forEach(fuente => {
+                if (fecha < fuente.fechaOrigen || estructuraFechas[fecha].some(tarea => tarea.origenId === fuente.origenId)) return;
+                estructuraFechas[fecha].push({
+                    ...fuente,
+                    id: `${fuente.origenId}_${fecha}`,
+                    completada: false
+                });
+            });
+            estructuraFechas[fecha].sort((a, b) => (a.hora || '23:59').localeCompare(b.hora || '23:59'));
             localStorage.setItem('habitus_v6_fechas', JSON.stringify(estructuraFechas));
+            persistirEstado();
+        }
+
+        window.eliminarTarea = function(id) {
+            const tarea = (estructuraFechas[fechaSeleccionadaStr] || []).find(t => t.id === id);
+            if (tarea && tarea.recurrente && tarea.fechaInicio !== fechaSeleccionadaStr) {
+                tarea.omitida = true;
+            } else {
+                estructuraFechas[fechaSeleccionadaStr] = (estructuraFechas[fechaSeleccionadaStr] || []).filter(t => t.id !== id);
+            }
+            localStorage.setItem('habitus_v6_fechas', JSON.stringify(estructuraFechas));
+            persistirEstado();
             renderTareas();
             renderCalendario();
             sincronizarNotificacionWidget();
@@ -305,6 +682,7 @@
             if (tarea) {
                 tarea.completada = !tarea.completada;
                 localStorage.setItem('habitus_v6_fechas', JSON.stringify(estructuraFechas));
+                persistirEstado();
                 renderTareas();
                 renderCalendario();
                 sincronizarNotificacionWidget();
@@ -316,9 +694,11 @@
             const hoyStr = obtenerFechaLocalStr(obtenerFechaLocal()); // <-- Cambiar aquí también
             const esPasado = fechaSeleccionadaStr < hoyStr;
 
+            prepararTareasRecurrentes(fechaSeleccionadaStr);
+
             wrapperInputTarea.style.display = esPasado ? 'none' : 'flex';
 
-            const tareasDelDia = estructuraFechas[fechaSeleccionadaStr] || [];
+            const tareasDelDia = (estructuraFechas[fechaSeleccionadaStr] || []).filter(tarea => !tarea.omitida);
             let deVerdadPendientes = 0;
 
             tareasDelDia.forEach((tarea) => {
@@ -336,7 +716,7 @@
                             <span class="tracking-tight">${tarea.texto}</span>
                             ${tarea.hora ? `<span class="text-[10px] text-[#a1a1aa] font-mono mt-0.5">⏱️ ${tarea.hora}</span>` : ''}
                         </div>
-                        <span class="text-xs ${tarea.completada ? 'text-white' : 'text-[#27272a]'}">${tarea.completada ? '●' : '○'}</span>
+                        <span class="flex items-center gap-2 text-xs ${tarea.completada ? 'text-white' : 'text-[#27272a]'}">${tarea.recurrente ? '<span class="text-cyan-400" title="Hábito recurrente">↻</span>' : ''}${tarea.completada ? '●' : '○'}</span>
                     </button>
                     <button onclick="eliminarTarea(${tarea.id})" class="p-3 text-zinc-600 hover:text-red-400 rounded-lg text-sm transition-colors">✕</button>
                 `;
@@ -346,62 +726,69 @@
             badgeContador.innerText = `${deVerdadPendientes} pendientes`;
         }
 
-        // ALGORITMO COMPACTADOR DE NOTIFICACIONES
-        function evaluarAlertasProgramadas(ahora) {
+        // Revisa las reglas una vez por hora y tolera que la pestaña haya estado suspendida.
+        async function evaluarAlertasProgramadas(ahora) {
+            if (revisionNotificacionesEnCurso) return;
+            revisionNotificacionesEnCurso = true;
+
             const hoyStr = obtenerFechaLocalStr(ahora);
             const tareasHoy = estructuraFechas[hoyStr] || [];
             const pendientes = tareasHoy.filter(t => !t.completada && t.hora);
 
-            if (pendientes.length === 0) return;
+            if (pendientes.length === 0) {
+                revisionNotificacionesEnCurso = false;
+                return;
+            }
+
             const horaActualMs = ahora.getTime();
+            try {
+                for (const tarea of pendientes) {
+                    const [h, m] = tarea.hora.split(':');
+                    const fechaTarea = new Date(ahora);
+                    fechaTarea.setHours(Number(h), Number(m), 0, 0);
+                    const tiempoTareaMs = fechaTarea.getTime();
+                    const puntosDeControl = [
+                        { clave: 'en_punto', offset: 0, msg: `Momento de actuar: ${tarea.texto}` },
+                        { clave: '30_min', offset: 30 * 60 * 1000, msg: `En 30 minutos: ${tarea.texto}` },
+                        { clave: '60_min', offset: HORA_EN_MS, msg: `En 1 hora aproximada: ${tarea.texto}` }
+                    ];
 
-            pendientes.forEach(tarea => {
-                const [h, m] = tarea.hora.split(':');
-                const fechaTarea = new Date(ahora);
-                fechaTarea.setHours(parseInt(h), parseInt(m), 0, 0);
-                const tiempoTareaMs = fechaTarea.getTime();
-
-                const puntosDeControl = [
-                    { clave: 'en_punto', offset: 0, msg: `Momento de actuar: ${tarea.texto}` },
-                    { clave: '30_min', offset: 30 * 60 * 1000, msg: `En 30 minutos: ${tarea.texto}` },
-                    { clave: '60_min', offset: 60 * 60 * 1000, msg: `En 1 hora aproximada: ${tarea.texto}` }
-                ];
-
-                puntosDeControl.forEach(punto => {
-                    const tiempoTargetMs = tiempoTareaMs - punto.offset;
-                    if (Math.abs(horaActualMs - tiempoTargetMs) < 10000) {
+                    for (const punto of puntosDeControl) {
+                        const tiempoTargetMs = tiempoTareaMs - punto.offset;
                         const idAlertaUnico = `${tarea.id}_${punto.clave}_${hoyStr}`;
-                        
-                        if (!logsNotificacionesEnviadas[idAlertaUnico]) {
-                            const tareasCercanas = pendientes.filter(otra => {
-                                if (otra.id === tarea.id) return false;
-                                const [oh, om] = otra.hora.split(':');
-                                const fOtra = new Date(ahora);
-                                fOtra.setHours(parseInt(oh), parseInt(om), 0, 0);
-                                return Math.abs(fOtra.getTime() - tiempoTareaMs) <= 60 * 60 * 1000;
+                        const alertaVigente = horaActualMs >= tiempoTargetMs && horaActualMs - tiempoTargetMs < HORA_EN_MS;
+                        if (!alertaVigente || logsNotificacionesEnviadas[idAlertaUnico]) continue;
+
+                        const tareasCercanas = pendientes.filter(otra => {
+                            if (otra.id === tarea.id) return false;
+                            const [oh, om] = otra.hora.split(':');
+                            const fOtra = new Date(ahora);
+                            fOtra.setHours(Number(oh), Number(om), 0, 0);
+                            return Math.abs(fOtra.getTime() - tiempoTareaMs) <= HORA_EN_MS;
+                        });
+                        const bloqueCompleto = [tarea, ...tareasCercanas].sort((a, b) => a.hora.localeCompare(b.hora));
+                        const esPrimeraDelBloque = bloqueCompleto[0].id === tarea.id;
+                        if (!esPrimeraDelBloque) continue;
+
+                        const cuerpo = tareasCercanas.length > 0
+                            ? `Bloque de rutinas aproximándose:\n${bloqueCompleto.map(t => `• ${t.texto} (${t.hora})`).join('\n')}`
+                            : punto.msg;
+                        const enviada = await triggerNotificacion(
+                            tareasCercanas.length > 0 ? 'Bloque Concentrado 🪐' : 'Habitus Alerta ⏱️',
+                            cuerpo
+                        );
+                        if (enviada) {
+                            bloqueCompleto.forEach(t => {
+                                logsNotificacionesEnviadas[`${t.id}_${punto.clave}_${hoyStr}`] = true;
                             });
-
-                            if (tareasCercanas.length > 0) {
-                                const bloqueCompleto = [tarea, ...tareasCercanas];
-                                bloqueCompleto.sort((a, b) => a.hora.localeCompare(b.hora));
-                                const proximaTarea = bloqueCompleto[0];
-
-                                if (tarea.id === proximaTarea.id) {
-                                    const listaTitulos = bloqueCompleto.map(t => `• ${t.texto} (${t.hora})`).join('\n');
-                                    triggerNotificacion('Bloque Concentrado 🪐', `Bloque de rutinas aproximándose:\n${listaTitulos}`);
-                                    bloqueCompleto.forEach(t => {
-                                        logsNotificacionesEnviadas[`${t.id}_${punto.clave}_${hoyStr}`] = true;
-                                    });
-                                }
-                            } else {
-                                triggerNotificacion('Habitus Alerta ⏱️', punto.msg);
-                                logsNotificacionesEnviadas[idAlertaUnico] = true;
-                            }
                             localStorage.setItem('habitus_v6_notifs_logs', JSON.stringify(logsNotificacionesEnviadas));
+                            return;
                         }
                     }
-                });
-            });
+                }
+            } finally {
+                revisionNotificacionesEnCurso = false;
+            }
         }
 
         // SINCRONIZACIÓN DISCRETA DEL WIDGET EN LA BARRA
@@ -418,34 +805,229 @@
             }
         }
 
-        function triggerNotificacion(titulo, cuerpo) {
-            if ('serviceWorker' in navigator && Notification.permission === 'granted') {
-                navigator.serviceWorker.ready.then(reg => {
-                    reg.showNotification(titulo, {
-                        body: cuerpo,
-                        tag: 'habitus-widget',
-                        renotify: false,
-                        silent: true,
-                        requireInteraction: true
-                    });
+        function escaparHtml(valor) {
+            return String(valor).replace(/[&<>'"]/g, caracter => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+            }[caracter]));
+        }
+
+        function crearTagBadge(tag) {
+            if (!tag) return '';
+            const colores = [
+                ['#172554', '#60a5fa'], ['#3f1d2e', '#fb7185'], ['#12352b', '#34d399'],
+                ['#422006', '#fbbf24'], ['#312e81', '#a5b4fc'], ['#164e63', '#67e8f9']
+            ];
+            const indice = [...tag].reduce((total, caracter) => total + caracter.charCodeAt(0), 0) % colores.length;
+            const [fondo, texto] = colores[indice];
+            return `<span class="inline-flex max-w-full truncate rounded-md border px-2 py-1 text-[10px] font-bold uppercase tracking-wide" style="background:${fondo};color:${texto};border-color:${texto}66">${escaparHtml(tag)}</span>`;
+        }
+
+        function estaEnRango(fecha, desde, hasta) {
+            return (!desde || !fecha || fecha >= desde) && (!hasta || !fecha || fecha <= hasta);
+        }
+
+        function crearTag(input, tags, clave) {
+            const nombre = input.value.trim().replace(/\s+/g, ' ');
+            if (!nombre || tags.some(tag => tag.toLowerCase() === nombre.toLowerCase())) return;
+            tags.push(nombre);
+            tags.sort((a, b) => a.localeCompare(b, 'es'));
+            localStorage.setItem(clave, JSON.stringify(tags));
+            persistirEstado();
+            input.value = '';
+            actualizarOpcionesTags();
+            const tipo = clave === 'habitus_v6_tags_ideas' ? 'idea' : 'movimiento financiero';
+            triggerNotificacion('Etiqueta creada', `Nueva etiqueta de ${tipo}: ${nombre}`, { tag: 'habitus-evento', permitirReemplazo: true });
+        }
+
+        function renderGestorTags(gestor, tags, tipo) {
+            gestor.innerHTML = tags.length > 0 ? tags.map((tag, indice) => `
+                <div class="flex items-center gap-2 min-w-0">
+                    <div class="min-w-0 flex-1">${crearTagBadge(tag)}</div>
+                    <button onclick="editarTag('${tipo}', ${indice})" class="shrink-0 text-xs text-zinc-500 hover:text-white px-2 py-1" aria-label="Editar tag" title="Editar tag">✎</button>
+                    <button onclick="eliminarTag('${tipo}', ${indice})" class="shrink-0 text-xs text-zinc-500 hover:text-red-400 px-2 py-1" aria-label="Eliminar tag" title="Eliminar tag">✕</button>
+                </div>
+            `).join('') : '<p class="text-[10px] text-[#52525b] px-1">No hay tags creadas.</p>';
+        }
+
+        function obtenerDatosTag(tipo) {
+            return tipo === 'idea'
+                ? { tags: tagsIdeas, clave: 'habitus_v6_tags_ideas', registros: listaIdeas }
+                : { tags: tagsMovimientos, clave: 'habitus_v6_tags_movimientos', registros: movimientos };
+        }
+
+        window.editarTag = function(tipo, indice) {
+            const datos = obtenerDatosTag(tipo);
+            const anterior = datos.tags[indice];
+            const nuevo = prompt('Nuevo nombre de la tag:', anterior);
+            const nombre = nuevo ? nuevo.trim().replace(/\s+/g, ' ') : '';
+            if (!nombre || nombre.toLowerCase() === anterior.toLowerCase()) return;
+            if (datos.tags.some((tag, tagIndice) => tagIndice !== indice && tag.toLowerCase() === nombre.toLowerCase())) return;
+            datos.tags[indice] = nombre;
+            datos.registros.forEach(registro => {
+                if (registro.tag === anterior) registro.tag = nombre;
+            });
+            localStorage.setItem(datos.clave, JSON.stringify(datos.tags));
+            localStorage.setItem(tipo === 'idea' ? 'habitus_v6_ideas' : 'habitus_v6_movimientos', JSON.stringify(datos.registros));
+            persistirEstado();
+            actualizarOpcionesTags();
+            renderIdeas();
+            renderMovimientos();
+        };
+
+        window.eliminarTag = function(tipo, indice) {
+            const datos = obtenerDatosTag(tipo);
+            const nombre = datos.tags[indice];
+            if (!confirm(`¿Eliminar la tag "${nombre}"? Los elementos conservarán su contenido, pero quedarán sin tag.`)) return;
+            datos.tags.splice(indice, 1);
+            datos.registros.forEach(registro => {
+                if (registro.tag === nombre) registro.tag = '';
+            });
+            localStorage.setItem(datos.clave, JSON.stringify(datos.tags));
+            localStorage.setItem(tipo === 'idea' ? 'habitus_v6_ideas' : 'habitus_v6_movimientos', JSON.stringify(datos.registros));
+            persistirEstado();
+            actualizarOpcionesTags();
+            renderIdeas();
+            renderMovimientos();
+        };
+
+        function llenarSelectorTags(selector, tags, etiquetaInicial) {
+            const valorActual = selector.value;
+            selector.innerHTML = `<option value="">${etiquetaInicial}</option>`;
+            tags.forEach(tag => {
+                const opcion = document.createElement('option');
+                opcion.value = tag;
+                opcion.textContent = tag;
+                selector.appendChild(opcion);
+            });
+            selector.value = tags.includes(valorActual) ? valorActual : '';
+        }
+
+        function actualizarOpcionesTags() {
+            llenarSelectorTags(selectorTagIdea, tagsIdeas, 'Sin tag');
+            llenarSelectorTags(filtroTagIdea, tagsIdeas, 'Todas las tags');
+            llenarSelectorTags(selectorTagMovimiento, tagsMovimientos, 'Sin tag');
+            llenarSelectorTags(filtroTagMovimiento, tagsMovimientos, 'Todas las tags');
+            renderGestorTags(gestorTagsIdea, tagsIdeas, 'idea');
+            renderGestorTags(gestorTagsMovimiento, tagsMovimientos, 'movimiento');
+        }
+
+        btnAgregarTagIdea.onclick = () => crearTag(inputNuevaTagIdea, tagsIdeas, 'habitus_v6_tags_ideas');
+        btnAgregarTagMovimiento.onclick = () => crearTag(inputNuevaTagMovimiento, tagsMovimientos, 'habitus_v6_tags_movimientos');
+        btnGestionarTagsIdea.onclick = () => gestorTagsIdea.classList.toggle('hidden');
+        btnGestionarTagsMovimiento.onclick = () => gestorTagsMovimiento.classList.toggle('hidden');
+
+        function agregarMovimiento() {
+            const monto = Number(inputMonto.value);
+            const concepto = inputConcepto.value.trim();
+            if (!Number.isFinite(monto) || monto <= 0 || !concepto) return;
+
+            const movimiento = {
+                id: Date.now(),
+                monto: Math.round(monto * 100) / 100,
+                tipo: selectorTipoMovimiento.value,
+                concepto,
+                tag: selectorTagMovimiento.value,
+                fecha: obtenerFechaLocalStr(obtenerFechaLocal())
+            };
+            movimientos.unshift(movimiento);
+            localStorage.setItem('habitus_v6_movimientos', JSON.stringify(movimientos));
+            persistirEstado();
+            inputMonto.value = '';
+            inputConcepto.value = '';
+            selectorTagMovimiento.value = '';
+            renderMovimientos();
+            triggerNotificacion(
+                movimiento.tipo === 'ingreso' ? 'Ingreso registrado' : 'Gasto registrado',
+                `${concepto}: $${movimiento.monto.toFixed(2)}`,
+                { tag: 'habitus-evento', permitirReemplazo: true }
+            );
+        }
+
+        window.eliminarMovimiento = function(id) {
+            movimientos = movimientos.filter(movimiento => movimiento.id !== id);
+            localStorage.setItem('habitus_v6_movimientos', JSON.stringify(movimientos));
+            persistirEstado();
+            renderMovimientos();
+        };
+
+        function renderMovimientos() {
+            const tipo = filtroTipoMovimiento.value;
+            const tag = filtroTagMovimiento.value;
+            const desde = filtroDesdeMovimiento.value;
+            const hasta = filtroHastaMovimiento.value;
+            const visibles = movimientos.filter(movimiento =>
+                (!tipo || movimiento.tipo === tipo) && (!tag || movimiento.tag === tag) && estaEnRango(movimiento.fecha, desde, hasta)
+            );
+            const balance = visibles.reduce((total, movimiento) =>
+                total + (movimiento.tipo === 'ingreso' ? movimiento.monto : -movimiento.monto), 0
+            );
+            balanceContabilidad.textContent = `${balance < 0 ? '-' : ''}$${Math.abs(balance).toFixed(2)}`;
+            balanceContabilidad.className = `text-sm font-bold ${balance >= 0 ? 'text-emerald-400' : 'text-rose-400'}`;
+            movimientosContainer.innerHTML = visibles.length > 0 ? visibles.map(movimiento => `
+                <div class="bg-[#09090b] p-3 rounded-xl border border-[#18181b] flex justify-between items-center gap-3">
+                    <div class="min-w-0">
+                        ${movimiento.tag ? `<div class="mb-2">${crearTagBadge(movimiento.tag)}</div>` : ''}
+                        <p class="text-sm text-zinc-200 truncate">${escaparHtml(movimiento.concepto)}</p>
+                        <p class="text-[10px] text-[#52525b] font-mono">${escaparHtml(movimiento.fecha)}</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-sm font-bold whitespace-nowrap ${movimiento.tipo === 'ingreso' ? 'text-emerald-400' : 'text-rose-400'}">${movimiento.tipo === 'ingreso' ? '+' : '-'}$${movimiento.monto.toFixed(2)}</span>
+                        <button onclick="eliminarMovimiento(${movimiento.id})" class="text-xs text-zinc-600 hover:text-red-400 transition-colors" aria-label="Eliminar movimiento">✕</button>
+                    </div>
+                </div>
+            `).join('') : '<p class="text-center text-xs text-[#52525b] py-4">No hay movimientos con estos filtros.</p>';
+        }
+
+        btnAgregarMovimiento.onclick = agregarMovimiento;
+        filtroTipoMovimiento.onchange = renderMovimientos;
+        filtroTagMovimiento.onchange = renderMovimientos;
+        filtroDesdeMovimiento.onchange = renderMovimientos;
+        filtroHastaMovimiento.onchange = renderMovimientos;
+
+        async function triggerNotificacion(titulo, cuerpo, opciones = {}) {
+            const { tag = 'habitus-widget', permitirReemplazo = false } = opciones;
+            if (envioNotificacionEnCurso || !('serviceWorker' in navigator) || Notification.permission !== 'granted') return false;
+
+            envioNotificacionEnCurso = true;
+            try {
+                const reg = await navigator.serviceWorker.ready;
+                if (!permitirReemplazo) {
+                    const notificacionesActivas = await reg.getNotifications({ tag });
+                    if (notificacionesActivas.length > 0) return false;
+                }
+
+                await reg.showNotification(titulo, {
+                    body: cuerpo,
+                    tag,
+                    renotify: permitirReemplazo,
+                    silent: true,
+                    requireInteraction: true
                 });
+                return true;
+            } finally {
+                envioNotificacionEnCurso = false;
             }
         }
 
         // TABS NAVEGACIÓN Y DIARIO
-        function switchTab(activeTab, inactiveTab, showView, hideView) {
-            activeTab.classList.remove('text-[#52525b]');
-            activeTab.classList.add('text-white');
-            inactiveTab.classList.remove('text-white');
-            inactiveTab.classList.add('text-[#52525b]');
-            showView.classList.remove('hidden');
-            hideView.classList.add('hidden');
+        function switchTab(activeTab, showView) {
+            [tabPlanificador, tabDiario, tabContabilidad].forEach(tab => {
+                tab.classList.toggle('text-white', tab === activeTab);
+                tab.classList.toggle('text-[#52525b]', tab !== activeTab);
+            });
+            [viewPlanificador, viewDiario, viewContabilidad].forEach(view => {
+                view.classList.toggle('hidden', view !== showView);
+            });
         }
 
-        tabPlanificador.onclick = () => switchTab(tabPlanificador, tabDiario, viewPlanificador, viewDiario);
+        tabPlanificador.onclick = () => switchTab(tabPlanificador, viewPlanificador);
         tabDiario.onclick = () => {
-            switchTab(tabDiario, tabPlanificador, viewDiario, viewPlanificador);
+                        switchTab(tabDiario, viewDiario);
             renderIdeas();
+        };
+        tabContabilidad.onclick = () => {
+            switchTab(tabContabilidad, viewContabilidad);
+            renderMovimientos();
         };
 
         btnGuardarIdea.onclick = () => {
@@ -454,29 +1036,41 @@
                 listaIdeas.unshift({
                     id: Date.now(),
                     texto: texto,
+                    tag: selectorTagIdea.value,
+                    fechaDia: obtenerFechaLocalStr(obtenerFechaLocal()),
                     fecha: obtenerFechaLocal().toLocaleString('es-EC', { dateStyle: 'short', timeStyle: 'short' })
                 });
                 localStorage.setItem('habitus_v6_ideas', JSON.stringify(listaIdeas));
+                persistirEstado();
                 inputNuevaIdea.value = "";
+                selectorTagIdea.value = "";
                 renderIdeas();
+                triggerNotificacion('Idea guardada', texto, { tag: 'habitus-evento', permitirReemplazo: true });
             }
         };
 
         window.eliminarIdea = function(id) {
             listaIdeas = listaIdeas.filter(idea => idea.id !== id);
             localStorage.setItem('habitus_v6_ideas', JSON.stringify(listaIdeas));
+            persistirEstado();
             renderIdeas();
         };
 
         function renderIdeas() {
             ideasContainer.innerHTML = "";
-            listaIdeas.forEach(idea => {
+            const tagFiltrada = filtroTagIdea.value;
+            const desde = filtroDesdeIdea.value;
+            const hasta = filtroHastaIdea.value;
+            listaIdeas.filter(idea =>
+                (!tagFiltrada || idea.tag === tagFiltrada) && estaEnRango(idea.fechaDia, desde, hasta)
+            ).forEach(idea => {
                 const card = document.createElement('div');
                 card.className = "bg-[#09090b] p-4 rounded-xl border border-[#18181b] space-y-2 relative";
                 card.innerHTML = `
-                    <p class="text-sm text-zinc-200 leading-relaxed">${idea.texto}</p>
+                    ${idea.tag ? `<div class="mb-2">${crearTagBadge(idea.tag)}</div>` : ''}
+                    <p class="text-sm text-zinc-200 leading-relaxed">${escaparHtml(idea.texto)}</p>
                     <div class="flex justify-between items-center pt-1">
-                        <span class="text-[10px] text-[#52525b] font-mono">${idea.fecha}</span>
+                        <span class="text-[10px] text-[#52525b] font-mono">${escaparHtml(idea.fecha)}</span>
                         <button onclick="eliminarIdea(${idea.id})" class="text-xs text-zinc-600 hover:text-red-400 transition-colors">Eliminar</button>
                     </div>
                 `;
@@ -484,19 +1078,36 @@
             });
         }
 
+        filtroTagIdea.onchange = renderIdeas;
+        filtroDesdeIdea.onchange = renderIdeas;
+        filtroHastaIdea.onchange = renderIdeas;
+
+        btnSubirGithub.onclick = subirBackupGithub;
+        btnBajarGithub.onclick = restaurarBackupGithub;
+
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js').then(() => {
-                    if (Notification.permission === 'default') Notification.requestPermission();
+                    if (Notification.permission === 'default') return Notification.requestPermission();
+                }).then(() => {
+                    iniciarControlNotificaciones();
                 });
             });
         }
 
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) evaluarAlertasProgramadas(obtenerFechaLocal());
+        });
+
         // RUN
         evaluarCambioDeDia();
+        actualizarOpcionesTags();
         renderCalendario();
         renderTareas();
+        renderIdeas();
+        renderMovimientos();
         procesarTiempoReal();
+        if (tokenGithubActivo) restaurarBackupGithub();
     </script>
 </body>
 </html>
