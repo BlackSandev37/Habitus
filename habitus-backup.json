@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "actualizadoEn": "2026-08-25T11:41:22.899Z",
+  "actualizadoEn": "2026-08-25T11:41:31.186Z",
   "estructuraFechas": {
     "2026-07-04": [],
     "2026-07-05": [],
@@ -35,16 +35,6 @@
       "id": 1783270796449,
       "texto": "Bags personalizadas para chef",
       "fecha": "5/7/26, 11:59 a. m."
-    },
-    {
-      "id": 1783320212231,
-      "texto": "Añadir habitos recurrentes y no recurrentes",
-      "fecha": "6/7/26, 1:43 a. m."
-    },
-    {
-      "id": 1783224070185,
-      "texto": "Darle tópicos a las ideas para filtrarlas más fácilmente(añadir un filtrado)",
-      "fecha": "4/7/26, 11:01 p. m."
     }
   ],
   "movimientos": [
@@ -105,8 +95,5 @@
   ],
   "rachaActual": 0,
   "ultimoDiaAcceso": "2026-08-25",
-  "logsNotificacionesEnviadas": {
-    "1783220220057.609_en_punto_2026-07-04": true,
-    "1783224125723.391_60_min_2026-07-05": true
-  }
+  "logsNotificacionesEnviadas": {}
 }
