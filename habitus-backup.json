@@ -1,12 +1,59 @@
 {
   "version": 1,
-  "actualizadoEn": "2026-08-25T10:51:57.242Z",
-  "estructuraFechas": {},
-  "listaIdeas": [],
+  "actualizadoEn": "2026-08-25T10:52:34.550Z",
+  "estructuraFechas": {
+    "2026-07-04": [],
+    "2026-07-05": [],
+    "2026-07-06": [],
+    "2026-07-07": [],
+    "2026-07-08": [],
+    "2026-07-10": [],
+    "2026-08-08": [
+      {
+        "id": 1786244280310.761,
+        "texto": "Se trabajo hoy",
+        "hora": null,
+        "completada": true
+      }
+    ],
+    "2026-08-15": [
+      {
+        "id": 1786835915237.5417,
+        "texto": "Hoy trabaje, baje un pescado y cocine y limpie parte de ese pesacado",
+        "hora": null,
+        "completada": true
+      }
+    ]
+  },
+  "listaIdeas": [
+    {
+      "id": 1784997714911,
+      "texto": "Fecha de corte 24 de cada mes, fecha de pago 11 de cada mes",
+      "fecha": "25/7/26, 11:41 a. m."
+    },
+    {
+      "id": 1783320212231,
+      "texto": "Añadir habitos recurrentes y no recurrentes",
+      "fecha": "6/7/26, 1:43 a. m."
+    },
+    {
+      "id": 1783270796449,
+      "texto": "Bags personalizadas para chef",
+      "fecha": "5/7/26, 11:59 a. m."
+    },
+    {
+      "id": 1783224070185,
+      "texto": "Darle tópicos a las ideas para filtrarlas más fácilmente(añadir un filtrado)",
+      "fecha": "4/7/26, 11:01 p. m."
+    }
+  ],
   "movimientos": [],
   "tagsIdeas": [],
   "tagsMovimientos": [],
   "rachaActual": 0,
   "ultimoDiaAcceso": "2026-08-25",
-  "logsNotificacionesEnviadas": {}
+  "logsNotificacionesEnviadas": {
+    "1783220220057.609_en_punto_2026-07-04": true,
+    "1783224125723.391_60_min_2026-07-05": true
+  }
 }
