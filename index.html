@@ -36,23 +36,6 @@
             </div>
         </div>
 
-        <div class="bg-[#09090b] p-4 rounded-xl border border-[#18181b] space-y-3">
-            <div class="flex justify-between items-center">
-                <h2 class="text-xs font-bold uppercase tracking-widest text-white">Backup en GitHub</h2>
-                <span id="estado-backup-github" class="text-[10px] text-[#52525b]">Local activo</span>
-            </div>
-            <input id="token-github" type="password" autocomplete="off" class="w-full bg-[#121214] border border-[#18181b] rounded-md p-2 text-xs text-white focus:outline-none placeholder-[#52525b]" placeholder="Token de GitHub (contents: write)">
-            <label class="flex items-center gap-2 text-[10px] text-[#a1a1aa]">
-                <input id="recordar-token-github" type="checkbox" class="accent-white" checked>
-                Recordar token y sincronizar automáticamente
-            </label>
-            <div class="flex gap-2">
-                <button id="btn-subir-github" class="flex-1 bg-white text-black text-xs font-bold px-3 py-2 rounded-md hover:bg-zinc-200 transition-all">Subir backup</button>
-                <button id="btn-bajar-github" class="flex-1 bg-[#18181b] border border-[#27272a] text-white text-xs font-bold px-3 py-2 rounded-md hover:border-[#52525b] transition-all">Restaurar</button>
-            </div>
-            <p class="text-[10px] text-[#52525b]">Usa un repositorio privado. El token solo permanece en esta pestaña.</p>
-        </div>
-
         <!-- SECCIÓN 1: PLANIFICADOR DE HÁBITOS (TAB ACTIVA POR DEFECTO) -->
         <div id="view-planificador" class="space-y-5 app-view">
             
@@ -165,6 +148,26 @@
             <div id="movimientos-container" class="space-y-2"></div>
         </div>
 
+        <!-- SECCIÓN 4: INFORMACIÓN PERSONAL -->
+        <div id="view-personal" class="space-y-4 app-view hidden">
+            <div class="bg-[#09090b] p-4 rounded-xl border border-[#18181b] space-y-3">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-xs font-bold uppercase tracking-widest text-white">Información personal</h2>
+                    <span id="estado-backup-github" class="text-[10px] text-[#52525b]">Local activo</span>
+                </div>
+                <input id="token-github" type="password" autocomplete="off" class="w-full bg-[#121214] border border-[#18181b] rounded-md p-2 text-xs text-white focus:outline-none placeholder-[#52525b]" placeholder="Token de GitHub (contents: write)">
+                <label class="flex items-center gap-2 text-[10px] text-[#a1a1aa]">
+                    <input id="recordar-token-github" type="checkbox" class="accent-white" checked>
+                    Recordar token y sincronizar automáticamente
+                </label>
+                <div class="flex gap-2">
+                    <button id="btn-subir-github" class="flex-1 bg-white text-black text-xs font-bold px-3 py-2 rounded-md hover:bg-zinc-200 transition-all">Subir backup</button>
+                    <button id="btn-bajar-github" class="flex-1 bg-[#18181b] border border-[#27272a] text-white text-xs font-bold px-3 py-2 rounded-md hover:border-[#52525b] transition-all">Restaurar</button>
+                </div>
+                <p class="text-[10px] text-[#52525b]">Usa un repositorio privado. El token solo permanece en este dispositivo.</p>
+            </div>
+        </div>
+
     </div>
 
     <!-- MENÚ DE NAVEGACIÓN INFERIOR (TABS FIJAS) -->
@@ -181,6 +184,10 @@
             <button id="tab-contabilidad" class="flex flex-col items-center gap-1 text-[#52525b] hover:text-[#a1a1aa] transition-all">
                 <span class="text-lg">💰</span>
                 <span class="text-[10px] font-medium tracking-tight">Dinero</span>
+            </button>
+            <button id="tab-personal" class="flex flex-col items-center gap-1 text-[#52525b] hover:text-[#a1a1aa] transition-all">
+                <span class="text-lg">👤</span>
+                <span class="text-[10px] font-medium tracking-tight">Perfil</span>
             </button>
         </div>
     </div>
@@ -492,9 +499,11 @@
         const tabPlanificador = document.getElementById('tab-planificador');
         const tabDiario = document.getElementById('tab-diario');
         const tabContabilidad = document.getElementById('tab-contabilidad');
+        const tabPersonal = document.getElementById('tab-personal');
         const viewPlanificador = document.getElementById('view-planificador');
         const viewDiario = document.getElementById('view-diario');
         const viewContabilidad = document.getElementById('view-contabilidad');
+        const viewPersonal = document.getElementById('view-personal');
 
         // RELOJ Y MONITOREO
         function procesarTiempoReal() {
@@ -1011,11 +1020,11 @@
 
         // TABS NAVEGACIÓN Y DIARIO
         function switchTab(activeTab, showView) {
-            [tabPlanificador, tabDiario, tabContabilidad].forEach(tab => {
+            [tabPlanificador, tabDiario, tabContabilidad, tabPersonal].forEach(tab => {
                 tab.classList.toggle('text-white', tab === activeTab);
                 tab.classList.toggle('text-[#52525b]', tab !== activeTab);
             });
-            [viewPlanificador, viewDiario, viewContabilidad].forEach(view => {
+            [viewPlanificador, viewDiario, viewContabilidad, viewPersonal].forEach(view => {
                 view.classList.toggle('hidden', view !== showView);
             });
         }
@@ -1029,6 +1038,7 @@
             switchTab(tabContabilidad, viewContabilidad);
             renderMovimientos();
         };
+        tabPersonal.onclick = () => switchTab(tabPersonal, viewPersonal);
 
         btnGuardarIdea.onclick = () => {
             const texto = inputNuevaIdea.value.trim();
