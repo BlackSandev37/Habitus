@@ -71,14 +71,14 @@
             </div>
 
             <!-- BLOQUE AGREGAR TAREAS (SOLO FUTURO/HOY) -->
-            <div id="wrapper-input-tarea" class="bg-[#09090b] p-3 rounded-xl border border-[#18181b] flex gap-2 items-center">
-                <input type="text" id="input-nueva-tarea" class="flex-1 bg-transparent text-sm text-white focus:outline-none placeholder-[#52525b]" placeholder="Añadir nuevo hábito...">
-                <input type="time" id="input-hora-tarea" class="bg-[#18181b] border border-[#27272a] rounded-md p-1.5 text-xs text-white focus:outline-none w-20 font-mono">
-                <select id="selector-recurrencia-tarea" class="bg-[#18181b] border border-[#27272a] rounded-md p-1.5 text-[10px] text-white focus:outline-none w-24">
+            <div id="wrapper-input-tarea" class="bg-[#09090b] p-3 rounded-xl border border-[#18181b] flex flex-wrap gap-2 items-center">
+                <input type="text" id="input-nueva-tarea" class="min-w-0 basis-full sm:basis-0 sm:flex-1 bg-transparent text-sm text-white focus:outline-none placeholder-[#52525b]" placeholder="Añadir nuevo hábito...">
+                <input type="time" id="input-hora-tarea" class="shrink-0 bg-[#18181b] border border-[#27272a] rounded-md p-1.5 text-xs text-white focus:outline-none w-20 font-mono">
+                <select id="selector-recurrencia-tarea" class="min-w-0 flex-1 sm:w-24 sm:flex-none bg-[#18181b] border border-[#27272a] rounded-md p-1.5 text-[10px] text-white focus:outline-none">
                     <option value="no">No recurrente</option>
                     <option value="si">Recurrente diario</option>
                 </select>
-                <button id="btn-agregar" class="bg-white text-black text-xs font-bold px-3 py-2 rounded-md hover:bg-zinc-200 transition-all">+</button>
+                <button id="btn-agregar" class="shrink-0 bg-white text-black text-xs font-bold px-3 py-2 rounded-md hover:bg-zinc-200 transition-all">+</button>
             </div>
 
             <!-- CONTENEDOR DE TAREAS Y STATUS -->
