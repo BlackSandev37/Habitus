@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "actualizadoEn": "2026-08-25T11:12:38.277Z",
+  "actualizadoEn": "2026-08-25T11:13:30.913Z",
   "estructuraFechas": {
     "2026-07-04": [],
     "2026-07-05": [],
@@ -49,15 +49,8 @@
   ],
   "movimientos": [],
   "tagsIdeas": [],
-  "tagsMovimientos": [
-    "Efectivo",
-    "Saldo",
-    "Tarjeta"
-  ],
+  "tagsMovimientos": [],
   "rachaActual": 0,
   "ultimoDiaAcceso": "2026-08-25",
-  "logsNotificacionesEnviadas": {
-    "1783220220057.609_en_punto_2026-07-04": true,
-    "1783224125723.391_60_min_2026-07-05": true
-  }
+  "logsNotificacionesEnviadas": {}
 }
