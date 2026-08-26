@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "actualizadoEn": "2026-08-26T03:22:54.297Z",
+  "actualizadoEn": "2026-08-26T03:23:54.372Z",
   "estructuraFechas": {
     "2026-07-04": [],
     "2026-07-05": [],
@@ -22,6 +22,89 @@
         "texto": "Hoy trabaje, baje un pescado y cocine y limpie parte de ese pesacado",
         "hora": null,
         "completada": true
+      }
+    ],
+    "2026-08-25": [
+      {
+        "id": 1787714598193.2827,
+        "texto": "Hacer cardio",
+        "hora": "21:30",
+        "completada": true,
+        "recurrente": true,
+        "origenId": 1787714598193.2827,
+        "fechaInicio": "2026-08-25"
+      }
+    ],
+    "2026-08-26": [
+      {
+        "id": "1787714598193.2827_2026-08-26",
+        "texto": "Hacer cardio",
+        "hora": "21:30",
+        "completada": false,
+        "recurrente": true,
+        "origenId": 1787714598193.2827,
+        "fechaInicio": "2026-08-25",
+        "fechaOrigen": "2026-08-25"
+      }
+    ],
+    "2026-08-27": [
+      {
+        "id": "1787714598193.2827_2026-08-27",
+        "texto": "Hacer cardio",
+        "hora": "21:30",
+        "completada": false,
+        "recurrente": true,
+        "origenId": 1787714598193.2827,
+        "fechaInicio": "2026-08-25",
+        "fechaOrigen": "2026-08-25"
+      }
+    ],
+    "2026-08-28": [
+      {
+        "id": "1787714598193.2827_2026-08-28",
+        "texto": "Hacer cardio",
+        "hora": "21:30",
+        "completada": false,
+        "recurrente": true,
+        "origenId": 1787714598193.2827,
+        "fechaInicio": "2026-08-25",
+        "fechaOrigen": "2026-08-25"
+      }
+    ],
+    "2026-08-29": [
+      {
+        "id": "1787714598193.2827_2026-08-29",
+        "texto": "Hacer cardio",
+        "hora": "21:30",
+        "completada": false,
+        "recurrente": true,
+        "origenId": 1787714598193.2827,
+        "fechaInicio": "2026-08-25",
+        "fechaOrigen": "2026-08-25"
+      }
+    ],
+    "2026-08-30": [
+      {
+        "id": "1787714598193.2827_2026-08-30",
+        "texto": "Hacer cardio",
+        "hora": "21:30",
+        "completada": false,
+        "recurrente": true,
+        "origenId": 1787714598193.2827,
+        "fechaInicio": "2026-08-25",
+        "fechaOrigen": "2026-08-25"
+      }
+    ],
+    "2026-08-31": [
+      {
+        "id": "1787714598193.2827_2026-08-31",
+        "texto": "Hacer cardio",
+        "hora": "21:30",
+        "completada": false,
+        "recurrente": true,
+        "origenId": 1787714598193.2827,
+        "fechaInicio": "2026-08-25",
+        "fechaOrigen": "2026-08-25"
       }
     ]
   },
