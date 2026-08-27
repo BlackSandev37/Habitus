@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "actualizadoEn": "2026-08-27T00:40:58.111Z",
+  "actualizadoEn": "2026-08-27T00:41:58.302Z",
   "estructuraFechas": {
     "2026-07-04": [],
     "2026-07-05": [],
@@ -121,6 +121,14 @@
     }
   ],
   "movimientos": [
+    {
+      "id": 1787791284466,
+      "monto": 52.79,
+      "tipo": "gasto",
+      "concepto": "Entradas burger show",
+      "tag": "Tarjeta",
+      "fecha": "2026-08-26"
+    },
     {
       "id": 1787657699557,
       "monto": 16.86,
