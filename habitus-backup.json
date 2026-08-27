@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "actualizadoEn": "2026-08-27T20:38:46.822Z",
+  "actualizadoEn": "2026-08-27T20:39:46.299Z",
   "estructuraFechas": {
     "2026-07-04": [],
     "2026-07-05": [],
@@ -106,6 +106,42 @@
         "fechaInicio": "2026-08-25",
         "fechaOrigen": "2026-08-25"
       }
+    ],
+    "2026-09-01": [
+      {
+        "id": "1787714598193.2827_2026-09-01",
+        "texto": "Hacer cardio",
+        "hora": "21:30",
+        "completada": false,
+        "recurrente": true,
+        "origenId": 1787714598193.2827,
+        "fechaInicio": "2026-08-25",
+        "fechaOrigen": "2026-08-25"
+      }
+    ],
+    "2026-09-02": [
+      {
+        "id": "1787714598193.2827_2026-09-02",
+        "texto": "Hacer cardio",
+        "hora": "21:30",
+        "completada": false,
+        "recurrente": true,
+        "origenId": 1787714598193.2827,
+        "fechaInicio": "2026-08-25",
+        "fechaOrigen": "2026-08-25"
+      }
+    ],
+    "2026-09-03": [
+      {
+        "id": "1787714598193.2827_2026-09-03",
+        "texto": "Hacer cardio",
+        "hora": "21:30",
+        "completada": false,
+        "recurrente": true,
+        "origenId": 1787714598193.2827,
+        "fechaInicio": "2026-08-25",
+        "fechaOrigen": "2026-08-25"
+      }
     ]
   },
   "listaIdeas": [
@@ -184,7 +220,7 @@
     "Saldo",
     "Tarjeta"
   ],
-  "rachaActual": 0,
+  "rachaActual": 1,
   "ultimoDiaAcceso": "2026-08-27",
   "logsNotificacionesEnviadas": {
     "1783220220057.609_en_punto_2026-07-04": true,
