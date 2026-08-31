@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "actualizadoEn": "2026-08-28T18:46:14.528Z",
+  "actualizadoEn": "2026-08-31T16:03:21.943Z",
   "estructuraFechas": {
     "2026-07-04": [],
     "2026-07-05": [],
@@ -221,7 +221,7 @@
     "Tarjeta"
   ],
   "rachaActual": 1,
-  "ultimoDiaAcceso": "2026-08-28",
+  "ultimoDiaAcceso": "2026-08-31",
   "logsNotificacionesEnviadas": {
     "1783220220057.609_en_punto_2026-07-04": true,
     "1783224125723.391_60_min_2026-07-05": true
