@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "actualizadoEn": "2026-08-31T16:03:21.943Z",
+  "actualizadoEn": "2026-08-31T16:04:21.534Z",
   "estructuraFechas": {
     "2026-07-04": [],
     "2026-07-05": [],
@@ -157,6 +157,14 @@
     }
   ],
   "movimientos": [
+    {
+      "id": 1788192229099,
+      "monto": 50,
+      "tipo": "ingreso",
+      "concepto": "Sueldo",
+      "tag": "Efectivo",
+      "fecha": "2026-08-31"
+    },
     {
       "id": 1787791284466,
       "monto": 52.79,
